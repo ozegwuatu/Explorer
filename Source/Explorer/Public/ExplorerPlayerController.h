@@ -18,6 +18,7 @@ public:
 	virtual void BeginPlay() override;
 
 protected:
+	//Workaround for "Input Mode Game Only" bug, regarding mouse input.
 	UFUNCTION(BlueprintCallable)
 		void CustomGameOnlyInputMode(bool InConsumeCaptureMouseDown);
 };

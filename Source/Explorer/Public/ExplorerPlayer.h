@@ -58,21 +58,28 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "ExplorerPlayer|Enhanced Input")
 		TObjectPtr<UInputMappingContext> DefaultContext;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "ExplorerPlayer")
+	//Allow the player to change this in options menu.
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "ExplorerPlayer")
 		float MouseLookSensitivity = 1.f;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "ExplorerPlayer")
+	//Allow the player to change this in options menu.
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "ExplorerPlayer")
 		float GamepadLookSensitivity = 50.f;
 
+	//The maximum distance at which the player can interact with a valid object.
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "ExplorerPlayer")
 		float InteractRadius = 100.f;
 
+	//Gameplay Tags that affect what the player can and can't do.
 	UPROPERTY(BlueprintReadWrite)
-		FGameplayTagContainer PlayerTagContainer;
+		FGameplayTagContainer PlayerTags;
 
 	//Custom C++ gate.
 	UPROPERTY(VisibleAnywhere)
 		FGate Gate = FGate(false);
+
+	UPROPERTY()
+		TObjectPtr<AActor> FocusedActor;
 
 	void Move(const FInputActionValue& Value);
 
@@ -82,4 +89,6 @@ protected:
 	void Interact();
 
 	void CheckForInteractables();
+
+	FHitResult InteractHitResult;
 };

@@ -18,6 +18,7 @@ public:
 	// USubsystem implementation Begin
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
 
+	//The save file that is currently loaded at any given time, while the game is running.
 	UPROPERTY(BlueprintReadWrite)
 		TObjectPtr<UExplorerSaveGame> PlayerSaveGame;
 };

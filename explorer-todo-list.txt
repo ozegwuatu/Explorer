@@ -1,8 +1,10 @@
 ---Player movement and camera perspective
 
----Interaction system
+---Climbing ladders
 
----Items as Data Assets
+---Flashlight and batteries
+
+---Interaction system
 
 ---Consuming valid items when interacting, such as consuming a key when opening a locked door
 

@@ -7,6 +7,9 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputMappingContext.h"
+#include "Kismet/GameplayStatics.h"
+#include "Kismet/KismetSystemLibrary.h"
+#include "ExplorerInteractInterface.h"
 
 // Sets default values
 AExplorerPlayer::AExplorerPlayer()
@@ -25,6 +28,7 @@ AExplorerPlayer::AExplorerPlayer()
 void AExplorerPlayer::BeginPlay()
 {
 	Super::BeginPlay();
+	
 }
 
 // Called every frame
