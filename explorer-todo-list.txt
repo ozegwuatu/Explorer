@@ -1,0 +1,13 @@
+---Player movement and camera perspective
+
+---Interaction system
+
+---Items as Data Assets
+
+---Consuming valid items when interacting, such as consuming a key when opening a locked door
+
+---Inventory system, with the ability to read item descriptions or drop items
+
+---User interface (HUD, menus, etc.)
+
+---Level design and environment art
