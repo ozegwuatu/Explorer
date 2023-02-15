@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
 #include "GameplayTagContainer.h"
-#include "ExplorerItemAsset.generated.h"
+#include "ExplorerItemDataAsset.generated.h"
 
 /**
  * 
@@ -49,7 +49,7 @@ struct FItemInfo
 };
 
 UCLASS()
-class EXPLORER_API UExplorerItemAsset : public UDataAsset
+class EXPLORER_API UExplorerItemDataAsset : public UDataAsset
 {
 	GENERATED_BODY()
 
@@ -58,4 +58,5 @@ public:
 		FItemInfo ItemInfo;
 
 protected:
+	
 };

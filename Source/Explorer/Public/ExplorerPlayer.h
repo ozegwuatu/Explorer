@@ -10,7 +10,6 @@
 #include "ExplorerPlayer.generated.h"
 
 //Forward declarations.
-class USpringArmComponent;
 class UCameraComponent;
 class UInputAction;
 class UInputMappingContext;
@@ -38,18 +37,30 @@ protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-		TObjectPtr<USpringArmComponent> SpringArm;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		TObjectPtr<UCameraComponent> FPCamera;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "ExplorerPlayer|Enhanced Input|Actions")
-		TObjectPtr<UInputAction> MoveAction;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+		TObjectPtr<USkeletalMeshComponent> FPMesh;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "ExplorerPlayer|Enhanced Input|Actions")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "ExplorerPlayer|Enhanced Input|Actions|Mouse and Keyboard")
+		TObjectPtr<UInputAction> MoveForwardAction;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "ExplorerPlayer|Enhanced Input|Actions|Mouse and Keyboard")
+		TObjectPtr<UInputAction> MoveBackwardAction;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "ExplorerPlayer|Enhanced Input|Actions|Mouse and Keyboard")
+		TObjectPtr<UInputAction> StrafeLeftAction;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "ExplorerPlayer|Enhanced Input|Actions|Mouse and Keyboard")
+		TObjectPtr<UInputAction> StrafeRightAction;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "ExplorerPlayer|Enhanced Input|Actions|Gamepad")
+		TObjectPtr<UInputAction> GamepadMoveAction;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "ExplorerPlayer|Enhanced Input|Actions|Mouse and Keyboard")
 		TObjectPtr<UInputAction> MouseLookAction;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "ExplorerPlayer|Enhanced Input|Actions")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "ExplorerPlayer|Enhanced Input|Actions|Gamepad")
 		TObjectPtr<UInputAction> GamepadLookAction;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "ExplorerPlayer|Enhanced Input|Actions")
@@ -68,27 +79,36 @@ protected:
 
 	//The maximum distance at which the player can interact with a valid object.
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "ExplorerPlayer")
-		float InteractRadius = 100.f;
+		float PlayerInteractRadius = 100.f;
 
 	//Gameplay Tags that affect what the player can and can't do.
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 		FGameplayTagContainer PlayerTags;
 
 	//Custom C++ gate.
 	UPROPERTY(VisibleAnywhere)
 		FGate Gate = FGate(false);
 
-	UPROPERTY()
-		TObjectPtr<AActor> FocusedActor;
-
-	void Move(const FInputActionValue& Value);
+	void MoveForward(const FInputActionValue& Value);
+	void MoveBackward(const FInputActionValue& Value);
+	void StrafeLeft(const FInputActionValue& Value);
+	void StrafeRight(const FInputActionValue& Value);
+	void GamepadMove(const FInputActionValue& Value);
 
 	void MouseLook(const FInputActionValue& Value);
 	void GamepadLook(const FInputActionValue& Value);
 
 	void Interact();
+	void InteractLineTrace();
+	void CheckForInteractableObjects();
 
-	void CheckForInteractables();
-
+	TObjectPtr<AActor> FocusedActor;
+	
+	TArray<TObjectPtr<AActor>> IgnoredActors;
+	
 	FHitResult InteractHitResult;
+	
+	FVector CameraLocation;
+	
+	FRotator CameraRotation;
 };

@@ -1,5 +1,3 @@
----Player movement and camera perspective
-
 ---Climbing ladders
 
 ---Flashlight and batteries
