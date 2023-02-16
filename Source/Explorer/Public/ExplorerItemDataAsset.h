@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
 #include "GameplayTagContainer.h"
+#include "ExplorerItemBase.h"
 #include "ExplorerItemDataAsset.generated.h"
 
 /**
@@ -27,6 +28,10 @@ struct FItemInfo
 	//The thumbnail that will be used to represent the item, in the player's inventory.
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item Info")
 		TObjectPtr<UTexture2D> ItemIcon;
+
+	//The (Blueprint) class for this item.
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item Info")
+		TSoftClassPtr<AExplorerItemBase> ItemClass;
 
 	//The maximum amount of this item that the player can hold.
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item Info")

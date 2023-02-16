@@ -34,20 +34,19 @@ void AExplorerItemBase::Tick(float DeltaTime)
 
 void AExplorerItemBase::StartFocus_Implementation()
 {
-	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 3, FColor::White, FString::Printf(TEXT("%s() successfully called"), *FString(__FUNCTION__))); //FOR TESTING
+	//if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 3, FColor::White, FString::Printf(TEXT("%s() successfully called"), *FString(__FUNCTION__))); //FOR TESTING
 	
 	OnItemInteractUpdate.Broadcast(true);
 }
 
 void AExplorerItemBase::EndFocus_Implementation()
 {
-	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 3, FColor::White, FString::Printf(TEXT("%s() successfully called"), *FString(__FUNCTION__))); //FOR TESTING
+	//if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 3, FColor::White, FString::Printf(TEXT("%s() successfully called"), *FString(__FUNCTION__))); //FOR TESTING
 
 	OnItemInteractUpdate.Broadcast(false);
 }
 
 void AExplorerItemBase::OnInteract_Implementation(AExplorerPlayer* CallingPlayer)
 {
-	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 3, FColor::White, FString::Printf(TEXT("%s() successfully called"), *FString(__FUNCTION__))); //FOR TESTING
-	if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Green, FString::Printf(TEXT("You picked up a %s!"), *ItemDataAsset->ItemInfo.ItemName.ToString())); //FOR TESTING
+	//if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 3, FColor::White, FString::Printf(TEXT("%s() successfully called"), *FString(__FUNCTION__))); //FOR TESTING
 }

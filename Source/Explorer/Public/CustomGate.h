@@ -22,7 +22,7 @@ public:
 	//Closes the gate, and prevents logic from being executed.
 	FORCEINLINE void Close() { bGateOpen = false; }
 
-	//Alternates between allowing and preventing logic.
+	//Alternates between allowing and preventing logic execution.
 	FORCEINLINE void Toggle() { bGateOpen = !bGateOpen; }
 
 	//Checks to see if logic can be executed.

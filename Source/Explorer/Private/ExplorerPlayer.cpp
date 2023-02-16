@@ -81,6 +81,21 @@ void AExplorerPlayer::PawnClientRestart()
 	}
 }
 
+void AExplorerPlayer::OpenCustomGate()
+{
+	Gate.Open();
+}
+
+void AExplorerPlayer::CloseCustomGate()
+{
+	Gate.Close();
+}
+
+bool AExplorerPlayer::CheckCustomGate()
+{
+	return Gate.IsOpen();
+}
+
 void AExplorerPlayer::MoveForward(const FInputActionValue& Value)
 {
 	if (Value.GetMagnitude() != 0)

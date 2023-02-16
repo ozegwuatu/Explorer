@@ -25,17 +25,17 @@ class EXPLORER_API IExplorerInteractInterface
 public:
 	//Activates one or more visual cues, that show the player an object can be interacted with.
 	//Define this in Blueprint, to make use of AC_Outliner component.
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "ExplorerInteractInterface")
 		void StartFocus();
 
 	//Deactivates all visual cues, that show the player an object can be interacted with.
 	//Define this in Blueprint, to make use of AC_Outliner component.
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "ExplorerInteractInterface")
 		void EndFocus();
 
 	/* Triggers interact functionality on a valid object, such as picking up an item or opening a door.
 	 @param	CallingPlayer	The player that interacted with this object.
 	 */
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "ExplorerInteractInterface")
 		void OnInteract(AExplorerPlayer* CallingPlayer);
 };

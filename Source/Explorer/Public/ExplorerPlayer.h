@@ -36,11 +36,15 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	/* Scene and Actor Components */
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		TObjectPtr<UCameraComponent> FPCamera;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		TObjectPtr<USkeletalMeshComponent> FPMesh;
+
+	/* EnhancedInput Actions and Mapping Contexts */
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "ExplorerPlayer|Enhanced Input|Actions|Mouse and Keyboard")
 		TObjectPtr<UInputAction> MoveForwardAction;
@@ -88,6 +92,18 @@ protected:
 	//Custom C++ gate.
 	UPROPERTY(VisibleAnywhere)
 		FGate Gate = FGate(false);
+
+	//Open the custom C++ gate from Blueprint.
+	UFUNCTION(BlueprintCallable, Category = "ExplorerPlayer|Custom Gate")
+		void OpenCustomGate();
+
+	//Close the custom C++ gate from Blueprint.
+	UFUNCTION(BlueprintCallable, Category = "ExplorerPlayer|Custom Gate")
+		void CloseCustomGate();
+
+	//Check if the custom C++ gate is open or not, from Blueprint.
+	UFUNCTION(BlueprintPure, Category = "ExplorerPlayer|Custom Gate")
+		bool CheckCustomGate();
 
 	void MoveForward(const FInputActionValue& Value);
 	void MoveBackward(const FInputActionValue& Value);
