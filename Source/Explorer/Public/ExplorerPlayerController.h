@@ -18,7 +18,9 @@ public:
 	virtual void BeginPlay() override;
 
 protected:
-	//Workaround for "Input Mode Game Only" bug, regarding mouse input.
+	/* A custom version of UWidgetBlueprintLibrary::SetInputMode_GameOnly(), that doesn't change the viewport mouse capture mode.
+	 @param	InConsumeCaptureMouseDown	Leave this "false" to avoid issues with mouse clicks.
+	 */
 	UFUNCTION(BlueprintCallable)
 		void CustomGameOnlyInputMode(bool InConsumeCaptureMouseDown);
 };

@@ -33,7 +33,9 @@ public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 		void EndFocus();
 
-	//Triggers interact functionality on a valid object, such as picking up an item or opening a door.
+	/* Triggers interact functionality on a valid object, such as picking up an item or opening a door.
+	 @param	CallingPlayer	The player that interacted with this object.
+	 */
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 		void OnInteract(AExplorerPlayer* CallingPlayer);
 };

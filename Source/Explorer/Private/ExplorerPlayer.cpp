@@ -166,7 +166,8 @@ void AExplorerPlayer::InteractLineTrace()
 		FVector CameraTraceEndLocation = CameraLocation + CameraRotation.Vector() * PlayerInteractRadius;
 
 		//Perform a line trace from the center of the player's camera, to the maximum extent of their interact range.
-		UKismetSystemLibrary::LineTraceSingle(this, CameraLocation, CameraTraceEndLocation, ETraceTypeQuery::TraceTypeQuery4, false, IgnoredActors, EDrawDebugTrace::ForDuration, InteractHitResult, true, FLinearColor::Red, FLinearColor::Green, 2.f);
+		//ECC_Visibility got assigned to TraceTypeQuery1 for some reason, when I was expecting it to be assigned to TraceTypeQuery4.
+		UKismetSystemLibrary::LineTraceSingle(this, CameraLocation, CameraTraceEndLocation, ETraceTypeQuery::TraceTypeQuery1, false, IgnoredActors, EDrawDebugTrace::None, InteractHitResult, true, FLinearColor::Red, FLinearColor::Green);
 	}
 
 	CheckForInteractableObjects();
