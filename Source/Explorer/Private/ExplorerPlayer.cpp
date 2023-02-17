@@ -164,9 +164,9 @@ void AExplorerPlayer::Interact()
 	{
 		IExplorerInteractInterface::Execute_OnInteract(FocusedActor, this);
 
-		//PlayerTags.RemoveTag(FGameplayTag::RequestGameplayTag(TEXT("Player.Interact"))); //DISABLING UNTIL INVENTORY SYSTEM IS IN PLACE
+		PlayerTags.RemoveTag(FGameplayTag::RequestGameplayTag(TEXT("Player.Interact")));
 
-		OnPlayerInteractUpdate.Broadcast(false);
+		OnPlayerInteractUpdate.Broadcast(false, FocusedActor);
 	}
 }
 
@@ -203,7 +203,7 @@ void AExplorerPlayer::CheckForInteractableObjects()
 
 				PlayerTags.RemoveTag(FGameplayTag::RequestGameplayTag(TEXT("Player.Interact")));
 
-				OnPlayerInteractUpdate.Broadcast(false);
+				OnPlayerInteractUpdate.Broadcast(false, FocusedActor);
 			}
 
 			//Start focus on the hit actor, and enable player interaction if applicable.
@@ -213,7 +213,7 @@ void AExplorerPlayer::CheckForInteractableObjects()
 
 				PlayerTags.AddTag(FGameplayTag::RequestGameplayTag(TEXT("Player.Interact")));
 
-				OnPlayerInteractUpdate.Broadcast(true);
+				OnPlayerInteractUpdate.Broadcast(true, HitActor);
 			}
 		}
 
@@ -230,7 +230,7 @@ void AExplorerPlayer::CheckForInteractableObjects()
 
 			PlayerTags.RemoveTag(FGameplayTag::RequestGameplayTag(TEXT("Player.Interact")));
 
-			OnPlayerInteractUpdate.Broadcast(false);
+			OnPlayerInteractUpdate.Broadcast(false, FocusedActor);
 		}
 
 		//No actor has been hit, so no reference needs to be stored.

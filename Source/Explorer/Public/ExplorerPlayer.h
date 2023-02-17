@@ -9,7 +9,7 @@
 #include "CustomGate.h"
 #include "ExplorerPlayer.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FPlayerInteractSignature, bool, bCanInteract);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FPlayerInteractSignature, bool, bCanInteract, AActor*, FocusedItem);
 
 //Forward declarations.
 class UCameraComponent;

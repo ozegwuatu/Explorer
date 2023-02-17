@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "UObject/Interface.h"
 #include "ExplorerPlayer.h"
+#include "ExplorerItemDataAsset.h"
 #include "ExplorerInteractInterface.generated.h"
 
 // This class does not need to be modified.
@@ -23,13 +24,15 @@ class EXPLORER_API IExplorerInteractInterface
 
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
-	//Activates one or more visual cues, that show the player an object can be interacted with.
-	//Define this in Blueprint, to make use of AC_Outliner component.
+	/* Activates one or more visual cues, that show the player an object can be interacted with.
+	Define this in Blueprint, to make use of AC_Outliner component.
+	*/
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "ExplorerInteractInterface")
 		void StartFocus();
 
-	//Deactivates all visual cues, that show the player an object can be interacted with.
-	//Define this in Blueprint, to make use of AC_Outliner component.
+	/* Deactivates all visual cues, that show the player an object can be interacted with.
+	Define this in Blueprint, to make use of AC_Outliner component.
+	*/
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "ExplorerInteractInterface")
 		void EndFocus();
 
@@ -38,4 +41,8 @@ public:
 	 */
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "ExplorerInteractInterface")
 		void OnInteract(AExplorerPlayer* CallingPlayer);
+
+	//Returns the FItemInfo struct of the focused item.
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "ExplorerInteractInterface|Item Info")
+		FItemInfo GetFocusedItemInfo();
 };

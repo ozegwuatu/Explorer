@@ -53,3 +53,8 @@ void AExplorerItemBase::OnInteract_Implementation(AExplorerPlayer* CallingPlayer
 {
 	//if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 3, FColor::White, FString::Printf(TEXT("%s() successfully called"), *FString(__FUNCTION__))); //FOR TESTING
 }
+
+FItemInfo AExplorerItemBase::GetFocusedItemInfo_Implementation()
+{
+	return ItemDataAsset->ItemInfo;
+}
