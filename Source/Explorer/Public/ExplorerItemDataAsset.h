@@ -27,7 +27,7 @@ struct FItemInfo
 
 	//The thumbnail that will be used to represent the item, in the player's inventory.
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item Info")
-		TObjectPtr<UTexture2D> ItemIcon;
+		TSoftObjectPtr<UTexture2D> ItemIcon;
 
 	//The (Blueprint) class for this item.
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item Info")

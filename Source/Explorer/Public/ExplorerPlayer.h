@@ -9,6 +9,8 @@
 #include "CustomGate.h"
 #include "ExplorerPlayer.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FPlayerInteractSignature, bool, bCanInteract);
+
 //Forward declarations.
 class UCameraComponent;
 class UInputAction;
@@ -88,6 +90,9 @@ protected:
 	//Gameplay Tags that affect what the player can and can't do.
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 		FGameplayTagContainer PlayerTags;
+
+	UPROPERTY(BlueprintAssignable, BlueprintCallable)
+		FPlayerInteractSignature OnPlayerInteractUpdate;
 
 	//Custom C++ gate.
 	UPROPERTY(VisibleAnywhere)

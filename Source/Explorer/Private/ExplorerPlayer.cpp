@@ -47,7 +47,7 @@ void AExplorerPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
 	// Make sure that we are using a UEnhancedInputComponent; if not, the project is not configured correctly.
-	if (TObjectPtr<UEnhancedInputComponent> PlayerEnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent))
+	if (UEnhancedInputComponent* PlayerEnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent))
 	{
 		if (IsValid(MoveForwardAction)) PlayerEnhancedInputComponent->BindAction(MoveForwardAction, ETriggerEvent::Triggered, this, &AExplorerPlayer::MoveForward);
 		if (IsValid(MoveBackwardAction)) PlayerEnhancedInputComponent->BindAction(MoveBackwardAction, ETriggerEvent::Triggered, this, &AExplorerPlayer::MoveBackward);
@@ -67,10 +67,10 @@ void AExplorerPlayer::PawnClientRestart()
 	Super::PawnClientRestart();
 
 	// Make sure that we have a valid PlayerController.
-	if (TObjectPtr<APlayerController> PC = Cast<APlayerController>(GetController()))
+	if (APlayerController* PC = Cast<APlayerController>(GetController()))
 	{
 		// Get the Enhanced Input Local Player Subsystem from the Local Player related to our Player Controller.
-		if (TObjectPtr<UEnhancedInputLocalPlayerSubsystem> Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PC->GetLocalPlayer()))
+		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PC->GetLocalPlayer()))
 		{
 			// PawnClientRestart can run more than once in an Actor's lifetime, so start by clearing out any leftover mappings.
 			Subsystem->ClearAllMappings();
@@ -158,16 +158,15 @@ void AExplorerPlayer::GamepadLook(const FInputActionValue& Value)
 void AExplorerPlayer::Interact()
 {
 	if (!PlayerTags.HasTagExact(FGameplayTag::RequestGameplayTag(TEXT("Player.Interact")))) return;
-
-	if (IsValid(FocusedActor))
+	
+	//If the focused actor is still valid and has an interface, execute interact functionality and disable player interaction.
+	if (IsValid(FocusedActor) && FocusedActor->Implements<UExplorerInteractInterface>())
 	{
-		//If the focused actor is still valid and has an interface, execute interact functionality and disable player interaction.
-		if (TObjectPtr<IExplorerInteractInterface> Interface = Cast<IExplorerInteractInterface>(FocusedActor))
-		{
-			Interface->Execute_OnInteract(FocusedActor, this);
+		IExplorerInteractInterface::Execute_OnInteract(FocusedActor, this);
 
-			//PlayerTags.RemoveTag(FGameplayTag::RequestGameplayTag(TEXT("Player.Interact"))); //DISABLING UNTIL INVENTORY SYSTEM IS IN PLACE
-		}
+		//PlayerTags.RemoveTag(FGameplayTag::RequestGameplayTag(TEXT("Player.Interact"))); //DISABLING UNTIL INVENTORY SYSTEM IS IN PLACE
+
+		OnPlayerInteractUpdate.Broadcast(false);
 	}
 }
 
@@ -190,7 +189,7 @@ void AExplorerPlayer::InteractLineTrace()
 
 void AExplorerPlayer::CheckForInteractableObjects()
 {
-	TObjectPtr<AActor> HitActor = InteractHitResult.GetActor();
+	AActor* HitActor = InteractHitResult.GetActor();
 
 	if (IsValid(HitActor))
 	{
@@ -198,19 +197,23 @@ void AExplorerPlayer::CheckForInteractableObjects()
 		if (HitActor != FocusedActor)
 		{
 			//End focus on the focused actor, and disable player interaction if applicable.
-			if (TObjectPtr<IExplorerInteractInterface> Interface = Cast<IExplorerInteractInterface>(FocusedActor))
+			if (IsValid(FocusedActor) && FocusedActor->Implements<UExplorerInteractInterface>())
 			{
-				Interface->Execute_EndFocus(FocusedActor);
+				IExplorerInteractInterface::Execute_EndFocus(FocusedActor);
 
 				PlayerTags.RemoveTag(FGameplayTag::RequestGameplayTag(TEXT("Player.Interact")));
+
+				OnPlayerInteractUpdate.Broadcast(false);
 			}
 
 			//Start focus on the hit actor, and enable player interaction if applicable.
-			if (TObjectPtr<IExplorerInteractInterface> Interface = Cast<IExplorerInteractInterface>(HitActor))
+			if (HitActor->Implements<UExplorerInteractInterface>())
 			{
-				Interface->Execute_StartFocus(HitActor);
+				IExplorerInteractInterface::Execute_StartFocus(HitActor);
 
 				PlayerTags.AddTag(FGameplayTag::RequestGameplayTag(TEXT("Player.Interact")));
+
+				OnPlayerInteractUpdate.Broadcast(true);
 			}
 		}
 
@@ -220,12 +223,14 @@ void AExplorerPlayer::CheckForInteractableObjects()
 	//For when no actor has been hit at all.
 	else
 	{
-		//End focus on the focused actor, and disable player interaction if applicable.
-		if (TObjectPtr<IExplorerInteractInterface> Interface = Cast<IExplorerInteractInterface>(FocusedActor))
+		//If the focused actor is still valid and has an interface, end focus on it and disable player interaction if applicable.
+		if (IsValid(FocusedActor) && FocusedActor->Implements<UExplorerInteractInterface>())
 		{
-			Interface->Execute_EndFocus(FocusedActor);
+			IExplorerInteractInterface::Execute_EndFocus(FocusedActor);
 
 			PlayerTags.RemoveTag(FGameplayTag::RequestGameplayTag(TEXT("Player.Interact")));
+
+			OnPlayerInteractUpdate.Broadcast(false);
 		}
 
 		//No actor has been hit, so no reference needs to be stored.

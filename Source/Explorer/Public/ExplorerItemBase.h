@@ -35,6 +35,9 @@ protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(VisibleAnywhere)
+		TObjectPtr<USceneComponent> Root;
+
+	UPROPERTY(VisibleAnywhere)
 		TObjectPtr<UStaticMeshComponent> ItemMesh;
 
 	UPROPERTY(VisibleAnywhere)

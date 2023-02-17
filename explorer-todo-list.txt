@@ -2,8 +2,6 @@
 
 ---Flashlight and batteries
 
----Interaction system
-
 ---Consuming valid items when interacting, such as consuming a key when opening a locked door
 
 ---Inventory system, with the ability to read item descriptions or drop items
