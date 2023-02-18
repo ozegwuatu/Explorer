@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
 #include "GameplayTagContainer.h"
+#include "ExplorerItemBase.h"
 #include "ExplorerItemDataAsset.generated.h"
 
 /**
@@ -29,9 +30,9 @@ struct FItemInfo
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item Info")
 		TSoftObjectPtr<UTexture2D> ItemIcon;
 
-	//The (Blueprint) class for this item. Use only classes derived from AExplorerItemBase.
+	//The class of this item, primarily used for spawning purposes.
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item Info")
-		TSoftClassPtr<AActor> ItemClass;
+		TSoftClassPtr<AExplorerItemBase> ItemClass;
 
 	//The maximum amount of this item that the player can hold.
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item Info")
