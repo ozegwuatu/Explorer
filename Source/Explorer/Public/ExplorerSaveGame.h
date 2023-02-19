@@ -18,10 +18,10 @@ public:
 
 protected:
 	//The user name that will be used to identify a collection of save games.
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "ExplorerSaveGame")
 		FString SaveSlotName;
 
 	//The numerical index that will be used to identify an individual save game.
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "ExplorerSaveGame")
 		uint8 UserIndex;
 };

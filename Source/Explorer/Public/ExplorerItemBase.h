@@ -28,19 +28,19 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ExplorerItemBase")
 		TObjectPtr<USceneComponent> Root;
 
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ExplorerItemBase")
 		TObjectPtr<UStaticMeshComponent> ItemMesh;
 
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ExplorerItemBase")
 		TObjectPtr<UBoxComponent> ItemInteractRadius;
 
 	//The data asset that the item's information will be pulled from.
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "ExplorerItem")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "ExplorerItemBase")
 		TObjectPtr<UExplorerItemDataAsset> ItemDataAsset;
 
-	UPROPERTY(BlueprintAssignable, BlueprintCallable)
+	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = "ExplorerItemBase")
 		FItemInteractSignature OnItemInteractUpdate;
 };

@@ -45,4 +45,10 @@ public:
 	//Returns the FItemInfo struct of the focused item.
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "ExplorerInteractInterface|Item Info")
 		FItemInfo GetFocusedItemInfo();
+
+	/* Attaches the item to a player, when it is picked up.
+	 @param	CallingPlayer	The player that interacted with this object.
+	 */
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "ExplorerInteractInterface")
+		void AttachItemToPlayer(AExplorerPlayer* CallingPlayer);
 };

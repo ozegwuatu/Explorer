@@ -34,16 +34,28 @@ public:
 	//Required for Enhanced Input plugin.
 	virtual void PawnClientRestart() override;
 
+	/* The full process of adding an item to the player's inventory; this function will be defined in Blueprint.
+	 @param	ItemToAdd	The item that will be added. It is expected to implement IExplorerInteractInterface.
+	 */
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "ExplorerPlayer|Inventory")
+		void AddItemToPlayerInventory(AActor* ItemToAdd);
+
+	/* AddItemToPlayerInventory() should call this function, before "Check For Available Inventory Slots" is called on the inventory widget.
+	 @param	ItemPickedUp	The item that was picked up. It is expected to implement IExplorerInteractInterface.
+	 */
+	UFUNCTION(BlueprintCallable, Category = "ExplorerPlayer|Inventory")
+		void PickUpItem(AActor* ItemPickedUp);
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 	/* Scene and Actor Components */
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ExplorerPlayer")
 		TObjectPtr<UCameraComponent> FPCamera;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "ExplorerPlayer")
 		TObjectPtr<USkeletalMeshComponent> FPMesh;
 
 	/* EnhancedInput Actions and Mapping Contexts */
@@ -88,11 +100,14 @@ protected:
 		float PlayerInteractRadius = 100.f;
 
 	//Gameplay Tags that affect what the player can and can't do.
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "ExplorerPlayer")
 		FGameplayTagContainer PlayerTags;
 
-	UPROPERTY(BlueprintAssignable, BlueprintCallable)
+	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = "ExplorerPlayer")
 		FPlayerInteractSignature OnPlayerInteractUpdate;
+
+	UPROPERTY(BlueprintReadWrite, Category = "ExplorerPlayer|Inventory")
+		TArray<AActor*> PlayerInventory;
 
 	//Custom C++ gate.
 	UPROPERTY(VisibleAnywhere)
@@ -125,7 +140,8 @@ protected:
 
 	TObjectPtr<AActor> FocusedActor;
 	
-	TArray<TObjectPtr<AActor>> IgnoredActors;
+	UPROPERTY()
+		TArray<AActor*> IgnoredActors;
 	
 	FHitResult InteractHitResult;
 	

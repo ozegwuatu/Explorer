@@ -236,3 +236,13 @@ void AExplorerPlayer::CheckForInteractableObjects()
 		FocusedActor = nullptr;
 	}
 }
+
+void AExplorerPlayer::PickUpItem(AActor* ItemPickedUp)
+{
+	if (IsValid(ItemPickedUp) && ItemPickedUp->Implements<UExplorerInteractInterface>())
+	{
+		IExplorerInteractInterface::Execute_AttachItemToPlayer(ItemPickedUp, this);
+		
+		PlayerInventory.Emplace(ItemPickedUp);
+	}
+}
