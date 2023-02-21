@@ -34,17 +34,18 @@ public:
 	//Required for Enhanced Input plugin.
 	virtual void PawnClientRestart() override;
 
-	/* The full process of adding an item to the player's inventory; this function will be defined in Blueprint.
-	 @param	ItemToAdd	The item that will be added. It is expected to implement IExplorerInteractInterface.
+	/* Attempts to pick up an item. This function will be defined in Blueprint.
+	 @param	ItemToPickUp	The item that the player is trying to pick up. It is expected to implement IExplorerInteractInterface.
 	 */
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "ExplorerPlayer|Inventory")
-		void AddItemToPlayerInventory(AActor* ItemToAdd);
+		void TryToPickUpItem(AActor* ItemToPickUp);
 
-	/* AddItemToPlayerInventory() should call this function, before "Check For Available Inventory Slots" is called on the inventory widget.
-	 @param	ItemPickedUp	The item that was picked up. It is expected to implement IExplorerInteractInterface.
+	/* Successfully adds an item to the player's inventory array.
+	 TryToPickUpItem() should call this function, if UExplorerInventoryWidget::CheckForAvailableInventorySlot() returns "true".
+	 @param	ItemAdded	The item that is being added. It is expected to implement IExplorerInteractInterface.
 	 */
 	UFUNCTION(BlueprintCallable, Category = "ExplorerPlayer|Inventory")
-		void PickUpItem(AActor* ItemPickedUp);
+		void AddItemToPlayerInventory(AActor* ItemAdded);
 
 protected:
 	// Called when the game starts or when spawned

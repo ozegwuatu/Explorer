@@ -44,7 +44,7 @@ void AExplorerFlashlight::OnInteract_Implementation(AExplorerPlayer* CallingPlay
 {
 	//if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 3, FColor::White, FString::Printf(TEXT("%s() successfully called"), *FString(__FUNCTION__))); //FOR TESTING
 
-	CallingPlayer->AddItemToPlayerInventory(this);
+	CallingPlayer->TryToPickUpItem(this);
 }
 
 FItemInfo AExplorerFlashlight::GetFocusedItemInfo_Implementation()

@@ -237,7 +237,7 @@ void AExplorerPlayer::CheckForInteractableObjects()
 	}
 }
 
-void AExplorerPlayer::PickUpItem(AActor* ItemPickedUp)
+void AExplorerPlayer::AddItemToPlayerInventory(AActor* ItemPickedUp)
 {
 	if (IsValid(ItemPickedUp) && ItemPickedUp->Implements<UExplorerInteractInterface>())
 	{
