@@ -8,6 +8,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "ExplorerInteractInterface.h"
+#include "ExplorerInventoryWidget.h"
 
 // Sets default values
 AExplorerPlayer::AExplorerPlayer()
@@ -29,6 +30,9 @@ void AExplorerPlayer::BeginPlay()
 
 	//The player themselves will be ignored by any line traces that they perform.
 	IgnoredActors.Emplace(this);
+
+	//Prepare the player's inventory widget for use.
+	if (IsValid(InventoryWidgetClass)) InventoryWidget = Cast<UExplorerInventoryWidget>(CreateWidget(GetWorld(), InventoryWidgetClass));
 }
 
 // Called every frame
@@ -236,6 +240,48 @@ void AExplorerPlayer::CheckForInteractableObjects()
 		FocusedActor = nullptr;
 	}
 }
+
+/*
+void AExplorerPlayer::TryToPickUpItem(AActor* ItemToPickUp)
+{
+	if (IsValid(ItemToPickUp) && ItemToPickUp->Implements<UExplorerInteractInterface>())
+	{
+		FGameplayTagContainer TagsToCheck = IExplorerInteractInterface::Execute_GetTargetItemInfo(ItemToPickUp).ItemTags;
+
+		//Check each inventory slot, to see if any are empty.
+		for (UExplorerInventorySlotButton* Index : InventoryWidget->InventorySlotArray)
+		{
+			if (Index->bIsSlotFilled)
+			{
+				//If the item that the player is trying to pick up is stackable, then filled inventory slots are checked for a matching item.
+				if (TagsToCheck.HasTagExact(FGameplayTag::RequestGameplayTag(TEXT("Item.Stackable"))))
+				{
+					InventoryWidget->CheckForAvailableInventorySlot(ItemToPickUp, bCanItemBeAdded);
+
+					break;
+				}
+			}
+			//If any inventory slots are empty, then the item can be placed in one of them.
+			else
+			{
+				InventoryWidget->CheckForAvailableInventorySlot(ItemToPickUp, bCanItemBeAdded);
+
+				break;
+			}
+		}
+
+		//The results of the inventory widget's own check will determine whether the item truly gets picked up or not.
+		if (bCanItemBeAdded)
+		{
+			AddItemToPlayerInventory(ItemToPickUp);
+		}
+		else
+		{
+			if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.5f, FColor::Orange, TEXT("ERROR: Inventory is full!"));
+		}
+	}
+}
+*/
 
 void AExplorerPlayer::AddItemToPlayerInventory(AActor* ItemPickedUp)
 {

@@ -15,6 +15,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FPlayerInteractSignature, bool, bCa
 class UCameraComponent;
 class UInputAction;
 class UInputMappingContext;
+class UExplorerInventoryWidget;
 
 UCLASS()
 class EXPLORER_API AExplorerPlayer : public ACharacter
@@ -110,6 +111,18 @@ protected:
 	UPROPERTY(BlueprintReadWrite, Category = "ExplorerPlayer|Inventory")
 		TArray<AActor*> PlayerInventory;
 
+	//The class that will be used to create the player's inventory widget.
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "ExplorerPlayer|Inventory")
+		TSubclassOf<UExplorerInventoryWidget> InventoryWidgetClass;
+
+	//The player's inventory widget itself.
+	UPROPERTY(BlueprintReadWrite, Category = "ExplorerPlayer|Inventory")
+		TObjectPtr<UExplorerInventoryWidget> InventoryWidget;
+
+	//Used by TryToPickUpItem, to determine if an item can be placed in the player's inventory.
+	UPROPERTY(BlueprintReadWrite)
+		bool bCanItemBeAdded;
+
 	//Custom C++ gate.
 	UPROPERTY(VisibleAnywhere)
 		FGate Gate = FGate(false);
@@ -140,7 +153,7 @@ protected:
 	void CheckForInteractableObjects();
 
 	TObjectPtr<AActor> FocusedActor;
-	
+
 	UPROPERTY()
 		TArray<AActor*> IgnoredActors;
 	

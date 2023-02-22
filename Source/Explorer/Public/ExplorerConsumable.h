@@ -26,7 +26,7 @@ public:
 	virtual void StartFocus_Implementation() override;
 	virtual void EndFocus_Implementation() override;
 	virtual void OnInteract_Implementation(AExplorerPlayer* CallingPlayer) override;
-	virtual FItemInfo GetFocusedItemInfo_Implementation() override;
+	virtual FItemInfo GetTargetItemInfo_Implementation() override;
 	virtual void AttachItemToPlayer_Implementation(AExplorerPlayer* CallingPlayer) override;
 	
 protected:

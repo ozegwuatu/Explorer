@@ -47,7 +47,7 @@ void AExplorerFlashlight::OnInteract_Implementation(AExplorerPlayer* CallingPlay
 	CallingPlayer->TryToPickUpItem(this);
 }
 
-FItemInfo AExplorerFlashlight::GetFocusedItemInfo_Implementation()
+FItemInfo AExplorerFlashlight::GetTargetItemInfo_Implementation()
 {
 	return ItemDataAsset->ItemInfo;
 }

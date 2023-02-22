@@ -16,12 +16,10 @@ class EXPLORER_API UExplorerInventoryWidget : public UCommonActivatableWidget
 	GENERATED_BODY()
 
 public:
-
-protected:
 	//All of the inventory slots contained within this widget.
 	UPROPERTY(BlueprintReadWrite, Category = "ExplorerInventoryWidget")
-		TArray<UExplorerInventorySlotButton*> InventorySlotArray;
-
+	TArray<UExplorerInventorySlotButton*> InventorySlotArray;
+	
 	/* Checks to see if the item that the player interacted with can be picked up. This function will be defined in Blueprint.
 	 Returns "true" if the item can be picked up, or "false" if the player's inventory is full.
 	 OVERRIDE THIS FUNCTION IN BLUEPRINT TO RETURN A VALUE!
@@ -44,4 +42,7 @@ protected:
 	 */
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "ExplorerInventoryWidget|Item Management")
 		void RemoveItemFromInventorySlot(UExplorerInventorySlotButton* SlotToEmpty, AActor* ItemToRemove);
+
+protected:
+	
 };

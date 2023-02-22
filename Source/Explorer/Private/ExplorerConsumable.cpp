@@ -47,7 +47,7 @@ void AExplorerConsumable::OnInteract_Implementation(AExplorerPlayer* CallingPlay
 	CallingPlayer->TryToPickUpItem(this);
 }
 
-FItemInfo AExplorerConsumable::GetFocusedItemInfo_Implementation()
+FItemInfo AExplorerConsumable::GetTargetItemInfo_Implementation()
 {
 	return ItemDataAsset->ItemInfo;
 }
