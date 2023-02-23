@@ -15,7 +15,6 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FPlayerInteractSignature, bool, bCa
 class UCameraComponent;
 class UInputAction;
 class UInputMappingContext;
-class UExplorerInventoryWidget;
 
 UCLASS()
 class EXPLORER_API AExplorerPlayer : public ACharacter
@@ -42,11 +41,18 @@ public:
 		void TryToPickUpItem(AActor* ItemToPickUp);
 
 	/* Successfully adds an item to the player's inventory array.
-	 TryToPickUpItem() should call this function, if UExplorerInventoryWidget::CheckForAvailableInventorySlot() returns "true".
+	 TryToPickUpItem() should call this function, if the inventory widget's check is successful.
 	 @param	ItemAdded	The item that is being added. It is expected to implement IExplorerInteractInterface.
 	 */
 	UFUNCTION(BlueprintCallable, Category = "ExplorerPlayer|Inventory")
 		void AddItemToPlayerInventory(AActor* ItemAdded);
+
+	/* Successfully removes an item from the player's inventory array.
+	 The inventory widget's "Remove Item From Inventory Slot" function should call this one, when appropriate.
+	 @param	ItemRemoved	The item that is being removed. It is expected to implement IExplorerInteractInterface.
+	 */
+	UFUNCTION(BlueprintCallable, Category = "ExplorerPlayer|Inventory")
+		void RemoveItemFromPlayerInventory(AActor* ItemRemoved);
 
 protected:
 	// Called when the game starts or when spawned
@@ -110,18 +116,6 @@ protected:
 
 	UPROPERTY(BlueprintReadWrite, Category = "ExplorerPlayer|Inventory")
 		TArray<AActor*> PlayerInventory;
-
-	//The class that will be used to create the player's inventory widget.
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "ExplorerPlayer|Inventory")
-		TSubclassOf<UExplorerInventoryWidget> InventoryWidgetClass;
-
-	//The player's inventory widget itself.
-	UPROPERTY(BlueprintReadWrite, Category = "ExplorerPlayer|Inventory")
-		TObjectPtr<UExplorerInventoryWidget> InventoryWidget;
-
-	//Used by TryToPickUpItem, to determine if an item can be placed in the player's inventory.
-	UPROPERTY(BlueprintReadWrite)
-		bool bCanItemBeAdded;
 
 	//Custom C++ gate.
 	UPROPERTY(VisibleAnywhere)

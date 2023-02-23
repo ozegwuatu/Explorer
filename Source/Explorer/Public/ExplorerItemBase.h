@@ -38,7 +38,7 @@ protected:
 		TObjectPtr<UBoxComponent> ItemInteractRadius;
 
 	//The data asset that the item's information will be pulled from.
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "ExplorerItemBase")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "ExplorerItemBase")
 		TObjectPtr<UExplorerItemDataAsset> ItemDataAsset;
 
 	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = "ExplorerItemBase")

@@ -67,9 +67,28 @@ void AExplorerConsumable::AttachItemToPlayer_Implementation(AExplorerPlayer* Cal
 	ItemMesh->SetSimulatePhysics(false);
 	ItemMesh->SetCollisionProfileName(TEXT("NoCollision"));
 
-	//The item's interact radius should no longer have collision, either.
+	//The item's interact radius will no longer respond to traces.
 	ItemInteractRadius->SetCollisionProfileName(TEXT("NoCollision"));
 
 	//Finally, the item is attached to the player.
 	AttachToComponent(CallingPlayer->GetMesh(), PickupRules);
+}
+
+void AExplorerConsumable::DetachItemFromPlayer_Implementation()
+{
+	//The item will no longer have an owner.
+	SetOwner(nullptr);
+
+	//The item's mesh becomes visible, and both collision and physics simulation are reactivated.
+	ItemMesh->SetUseCCD(true);
+	ItemMesh->SetVisibility(true);
+	ItemMesh->SetSimulatePhysics(true);
+	ItemMesh->SetCollisionProfileName(TEXT("PhysicsActor"));
+
+	//The item's interact radius will respond to traces once again.
+	ItemInteractRadius->SetCollisionProfileName(TEXT("OverlapAllDynamic"));
+	ItemInteractRadius->SetCollisionResponseToChannel(ECC_Visibility, ECR_Block);
+
+	//Finally, the item is detached from the player.
+	DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
 }
