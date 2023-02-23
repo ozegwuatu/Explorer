@@ -15,6 +15,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FPlayerInteractSignature, bool, bCa
 class UCameraComponent;
 class UInputAction;
 class UInputMappingContext;
+class AExplorerItemBase;
 
 UCLASS()
 class EXPLORER_API AExplorerPlayer : public ACharacter
@@ -40,19 +41,19 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "ExplorerPlayer|Inventory")
 		void TryToPickUpItem(AActor* ItemToPickUp);
 
-	/* Successfully adds an item to the player's inventory array.
+	/* Successfully adds an item class to the player's inventory array.
 	 TryToPickUpItem() should call this function, if the inventory widget's check is successful.
-	 @param	ItemAdded	The item that is being added. It is expected to implement IExplorerInteractInterface.
+	 @param	ItemAdded	The item whose class is being added. It is expected to implement IExplorerInteractInterface.
 	 */
 	UFUNCTION(BlueprintCallable, Category = "ExplorerPlayer|Inventory")
 		void AddItemToPlayerInventory(AActor* ItemAdded);
 
-	/* Successfully removes an item from the player's inventory array.
+	/* Successfully removes an item class from the player's inventory array.
 	 The inventory widget's "Remove Item From Inventory Slot" function should call this one, when appropriate.
-	 @param	ItemRemoved	The item that is being removed. It is expected to implement IExplorerInteractInterface.
+	 @param	ClassToRemove	The item class that is being removed.
 	 */
 	UFUNCTION(BlueprintCallable, Category = "ExplorerPlayer|Inventory")
-		void RemoveItemFromPlayerInventory(AActor* ItemRemoved);
+		void RemoveItemFromPlayerInventory(TSoftClassPtr<AExplorerItemBase> ClassToRemove);
 
 protected:
 	// Called when the game starts or when spawned
@@ -111,11 +112,12 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "ExplorerPlayer")
 		FGameplayTagContainer PlayerTags;
 
+	//References to the class of each item that the player is holding.
+	UPROPERTY(BlueprintReadWrite, Category = "ExplorerPlayer|Inventory")
+		TArray<TSoftClassPtr<AExplorerItemBase>> PlayerInventory;
+
 	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = "ExplorerPlayer")
 		FPlayerInteractSignature OnPlayerInteractUpdate;
-
-	UPROPERTY(BlueprintReadWrite, Category = "ExplorerPlayer|Inventory")
-		TArray<AActor*> PlayerInventory;
 
 	//Custom C++ gate.
 	UPROPERTY(VisibleAnywhere)

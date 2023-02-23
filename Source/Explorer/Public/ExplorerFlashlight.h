@@ -27,8 +27,6 @@ public:
 	virtual void EndFocus_Implementation() override;
 	virtual void OnInteract_Implementation(AExplorerPlayer* CallingPlayer) override;
 	virtual FItemInfo GetTargetItemInfo_Implementation() override;
-	virtual void AttachItemToPlayer_Implementation(AExplorerPlayer* CallingPlayer) override;
-	virtual void DetachItemFromPlayer_Implementation() override;
 
 protected:
 	// Called when the game starts or when spawned

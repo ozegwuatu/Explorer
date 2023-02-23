@@ -45,16 +45,4 @@ public:
 	//Returns the item's FItemInfo struct.
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "ExplorerInteractInterface|Item Info")
 		FItemInfo GetTargetItemInfo();
-
-	/* Attaches the item to a player, when it is picked up.
-	 @param	CallingPlayer	The player that picked up this object.
-	 */
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "ExplorerInteractInterface")
-		void AttachItemToPlayer(AExplorerPlayer* CallingPlayer);
-
-	/* Detaches the item from a player, when it is dropped.
-	 @param	CallingPlayer	The player that dropped this object.
-	 */
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "ExplorerInteractInterface")
-		void DetachItemFromPlayer();
 };

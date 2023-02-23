@@ -8,6 +8,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "ExplorerInteractInterface.h"
+#include "ExplorerItemBase.h"
 
 // Sets default values
 AExplorerPlayer::AExplorerPlayer()
@@ -29,7 +30,6 @@ void AExplorerPlayer::BeginPlay()
 
 	//The player themselves will be ignored by any line traces that they perform.
 	IgnoredActors.Emplace(this);
-	
 }
 
 // Called every frame
@@ -242,18 +242,23 @@ void AExplorerPlayer::AddItemToPlayerInventory(AActor* ItemPickedUp)
 {
 	if (IsValid(ItemPickedUp) && ItemPickedUp->Implements<UExplorerInteractInterface>())
 	{
-		IExplorerInteractInterface::Execute_AttachItemToPlayer(ItemPickedUp, this);
-		
-		PlayerInventory.Emplace(ItemPickedUp);
+		//A reference to the picked-up item's class is stored, and the item itself is destroyed.
+		if (TSoftClassPtr<AExplorerItemBase> PickedUpClass = IExplorerInteractInterface::Execute_GetTargetItemInfo(ItemPickedUp).ItemClass)
+		{
+			PlayerInventory.Emplace(PickedUpClass);
+
+			ItemPickedUp->Destroy();
+		}
 	}
 }
 
-void AExplorerPlayer::RemoveItemFromPlayerInventory(AActor* ItemRemoved)
+void AExplorerPlayer::RemoveItemFromPlayerInventory(TSoftClassPtr<AExplorerItemBase> ClassToRemove)
 {
-	if (IsValid(ItemRemoved) && ItemRemoved->Implements<UExplorerInteractInterface>())
+	//An item of the class contained in the inventory slot is spawned, and the class reference is removed from the player's inventory.
+	if (IsValid(ClassToRemove.Get()))
 	{
-		IExplorerInteractInterface::Execute_DetachItemFromPlayer(ItemRemoved);
-
-		PlayerInventory.Remove(ItemRemoved);
+		GetWorld()->SpawnActor<AExplorerItemBase>(ClassToRemove.Get(), (GetActorLocation() + GetActorForwardVector() * 100), GetActorRotation());
+		
+		PlayerInventory.RemoveAt(PlayerInventory.FindLast(ClassToRemove));
 	}
 }
