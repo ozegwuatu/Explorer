@@ -245,6 +245,14 @@ void AExplorerPlayer::AddItemToPlayerInventory(AActor* ItemPickedUp)
 		//A reference to the picked-up item's class is stored, and the item itself is destroyed.
 		if (TSoftClassPtr<AExplorerItemBase> PickedUpClass = IExplorerInteractInterface::Execute_GetTargetItemInfo(ItemPickedUp).ItemClass)
 		{
+			FGameplayTagContainer PickedUpItemTags = IExplorerInteractInterface::Execute_GetTargetItemInfo(PickedUpClass->GetDefaultObject()).ItemTags;
+
+			//If the player picked up a flashlight, then they will gain the ability to use it.
+			if (PickedUpItemTags.HasTagExact(FGameplayTag::RequestGameplayTag(TEXT("Item.Type.Flashlight"))))
+			{
+				PlayerTags.AddTag(FGameplayTag::RequestGameplayTag(TEXT("Item.Type.Flashlight")));
+			}
+
 			PlayerInventory.Emplace(PickedUpClass);
 
 			ItemPickedUp->Destroy();
@@ -260,5 +268,32 @@ void AExplorerPlayer::RemoveItemFromPlayerInventory(TSoftClassPtr<AExplorerItemB
 		GetWorld()->SpawnActor<AExplorerItemBase>(ClassToRemove.Get(), (GetActorLocation() + GetActorForwardVector() * 100), GetActorRotation());
 		
 		PlayerInventory.RemoveAt(PlayerInventory.FindLast(ClassToRemove));
+
+		FGameplayTagContainer DroppedItemTags = IExplorerInteractInterface::Execute_GetTargetItemInfo(ClassToRemove->GetDefaultObject()).ItemTags;
+		
+		if (DroppedItemTags.HasTagExact(FGameplayTag::RequestGameplayTag(TEXT("Item.Type.Flashlight"))))
+		{
+			bool bHasFlashlight = false;
+
+			//Check the player's inventory for any remaining flashlights.
+			for (TSoftClassPtr<AExplorerItemBase> Index : PlayerInventory)
+			{
+				//If there is one, then the player can keep the ability to use flashlights.
+				if (IExplorerInteractInterface::Execute_GetTargetItemInfo(Index->GetDefaultObject()).ItemTags.HasTagExact(FGameplayTag::RequestGameplayTag(TEXT("Item.Type.Flashlight"))))
+				{
+					bHasFlashlight = true;
+
+					break;
+				}
+			}
+
+			//If the player no longer has any flashlights, then naturally they'll no longer be able to use them.
+			if (!bHasFlashlight)
+			{
+				DeactivateFlashlight();
+
+				PlayerTags.RemoveTag(FGameplayTag::RequestGameplayTag(TEXT("Item.Type.Flashlight")));
+			}
+		}
 	}
 }

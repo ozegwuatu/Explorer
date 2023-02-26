@@ -55,6 +55,18 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "ExplorerPlayer|Inventory")
 		void RemoveItemFromPlayerInventory(TSoftClassPtr<AExplorerItemBase> ClassToRemove);
 
+	/* Turns on the player's flashlight, if they have one.
+	 Since the Spot Light that is used for the player's flashlight was added in Blueprint, that's where this function will be defined.
+	 */
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "ExplorerPlayer|Flashlight")
+		void ActivateFlashlight();
+
+	/* Turns off the player's flashlight, if they have one.
+	 Since the Spot Light that is used for the player's flashlight was added in Blueprint, that's where this function will be defined.
+	 */
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "ExplorerPlayer|Flashlight")
+		void DeactivateFlashlight();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
