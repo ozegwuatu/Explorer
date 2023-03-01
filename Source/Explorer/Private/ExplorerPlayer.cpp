@@ -159,14 +159,10 @@ void AExplorerPlayer::Interact()
 {
 	if (!PlayerTags.HasTagExact(FGameplayTag::RequestGameplayTag(TEXT("Player.Interact")))) return;
 	
-	//If the focused actor is still valid and has an interface, execute interact functionality and disable player interaction.
+	//If the focused actor is still valid and has an interface, execute interact functionality.
 	if (IsValid(FocusedActor) && FocusedActor->Implements<UExplorerInteractInterface>())
 	{
 		IExplorerInteractInterface::Execute_OnInteract(FocusedActor, this);
-
-		PlayerTags.RemoveTag(FGameplayTag::RequestGameplayTag(TEXT("Player.Interact")));
-
-		OnPlayerInteractUpdate.Broadcast(false, FocusedActor);
 	}
 }
 
