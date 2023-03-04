@@ -50,3 +50,8 @@ FItemInfo AExplorerFlashlight::GetTargetItemInfo_Implementation()
 {
 	return ItemDataAsset->ItemInfo;
 }
+
+FName AExplorerFlashlight::GetTargetInteractableName_Implementation()
+{
+	return ItemDataAsset->ItemInfo.ItemName;
+}

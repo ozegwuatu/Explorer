@@ -45,4 +45,8 @@ public:
 	//Returns the item's FItemInfo struct.
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "ExplorerInteractInterface|Item Info")
 		FItemInfo GetTargetItemInfo();
+
+	//Returns the interactable object's name, primarily meant for displaying it in the player's HUD.
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "ExplorerInteractInterface|Item Info")
+		FName GetTargetInteractableName();
 };

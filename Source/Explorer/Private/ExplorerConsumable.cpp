@@ -50,3 +50,8 @@ FItemInfo AExplorerConsumable::GetTargetItemInfo_Implementation()
 {
 	return ItemDataAsset->ItemInfo;
 }
+
+FName AExplorerConsumable::GetTargetInteractableName_Implementation()
+{
+	return ItemDataAsset->ItemInfo.ItemName;	
+}
