@@ -256,12 +256,12 @@ void AExplorerPlayer::AddItemToPlayerInventory(AActor* ItemPickedUp)
 	}
 }
 
-void AExplorerPlayer::RemoveItemFromPlayerInventory(TSoftClassPtr<AExplorerItemBase> ClassToRemove)
+void AExplorerPlayer::RemoveItemFromPlayerInventory(TSoftClassPtr<AExplorerItemBase> ClassToRemove, bool bDestroyItem)
 {
 	//An item of the class contained in the inventory slot is spawned, and the class reference is removed from the player's inventory.
 	if (IsValid(ClassToRemove.Get()))
 	{
-		GetWorld()->SpawnActor<AExplorerItemBase>(ClassToRemove.Get(), (GetActorLocation() + GetActorForwardVector() * 100), GetActorRotation());
+		if (!bDestroyItem) GetWorld()->SpawnActor<AExplorerItemBase>(ClassToRemove.Get(), (GetActorLocation() + GetActorForwardVector() * 100), GetActorRotation());
 		
 		PlayerInventory.RemoveAt(PlayerInventory.FindLast(ClassToRemove));
 

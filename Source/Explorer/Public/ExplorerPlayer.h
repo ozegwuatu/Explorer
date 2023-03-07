@@ -51,9 +51,10 @@ public:
 	/* Successfully removes an item class from the player's inventory array.
 	 The inventory widget's "Remove Item From Inventory Slot" function should call this one, when appropriate.
 	 @param	ClassToRemove	The item class that is being removed.
+	 @param	bDestroyItem	Should we destroy this item instead of dropping it? Use this to get rid of key items once they have been used.
 	 */
 	UFUNCTION(BlueprintCallable, Category = "ExplorerPlayer|Inventory")
-		void RemoveItemFromPlayerInventory(TSoftClassPtr<AExplorerItemBase> ClassToRemove);
+		void RemoveItemFromPlayerInventory(TSoftClassPtr<AExplorerItemBase> ClassToRemove, bool bDestroyItem);
 
 	/* Turns on the player's flashlight, if they have one.
 	 Since the Spot Light that is used for the player's flashlight was added in Blueprint, that's where this function will be defined.
